@@ -350,7 +350,6 @@ class TwitterOAuth extends Config
         /* Curl settings */
         $options = [
             // CURLOPT_VERBOSE => true,
-            CURLOPT_CAINFO => __DIR__ . DIRECTORY_SEPARATOR . 'cacert.pem',
             CURLOPT_CONNECTTIMEOUT => $this->connectionTimeout,
             CURLOPT_HEADER => true,
             CURLOPT_HTTPHEADER => ['Accept: application/json', $authorization, 'Expect:'],
@@ -361,11 +360,6 @@ class TwitterOAuth extends Config
             CURLOPT_URL => $url,
             CURLOPT_USERAGENT => $this->userAgent,
         ];
-
-        /* Remove CACert file when in a PHAR file. */
-        if (!empty(\Phar::running(false))) {
-            unset($options[CURLOPT_CAINFO]);
-        }
 
         if($this->gzipEncoding) {
             $options[CURLOPT_ENCODING] = 'gzip';
